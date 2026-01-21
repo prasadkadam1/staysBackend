@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-
+// import dotenv from "dotenv";
+const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
 const { v4: uuid } = require("uuid");
@@ -30,7 +30,7 @@ const collections = [
   "cart",
   "bookNow",
   "bookingDetails",
-  "registrations"
+  "registrations",
 ];
 
 collections.forEach((col) => {
@@ -54,7 +54,7 @@ app.post("/login", (req, res) => {
   const db = readDB();
 
   const user = db.users.find(
-    (u) => u.email === email && u.password === password
+    (u) => u.email === email && u.password === password,
   );
 
   user ? res.json(user) : res.status(401).json({ msg: "Invalid credentials" });
@@ -66,10 +66,12 @@ app.post("/admin/login", (req, res) => {
   const db = readDB();
 
   const admin = db.admin.find(
-    (a) => a.email === email && a.password === password
+    (a) => a.email === email && a.password === password,
   );
 
-  admin ? res.json(admin) : res.status(401).json({ msg: "Invalid credentials" });
+  admin
+    ? res.json(admin)
+    : res.status(401).json({ msg: "Invalid credentials" });
 });
 
 /* ------------------ REGISTER USER ------------------ */
@@ -147,6 +149,5 @@ app.delete("/:collection/:id", (req, res) => {
 
 /* ------------------ SERVER ------------------ */
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running`);
 });
-
