@@ -1,15 +1,15 @@
-// import dotenv from "dotenv";
-const dotenv = require("dotenv");
-const express = require("express");
-const cors = require("cors");
-const { v4: uuid } = require("uuid");
-const { readDB, writeDB } = require("./utils/fileDb");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { v4 as uuid } from "uuid";
+import { readDB, writeDB } from "./utils/fileDb.js";
+
 dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(dotenv);
 app.use(express.json());
 
 /* ------------------ GENERIC GET ROUTES ------------------ */
@@ -30,7 +30,7 @@ const collections = [
   "cart",
   "bookNow",
   "bookingDetails",
-  "registrations",
+  "registrations"
 ];
 
 collections.forEach((col) => {
@@ -54,7 +54,7 @@ app.post("/login", (req, res) => {
   const db = readDB();
 
   const user = db.users.find(
-    (u) => u.email === email && u.password === password,
+    (u) => u.email === email && u.password === password
   );
 
   user ? res.json(user) : res.status(401).json({ msg: "Invalid credentials" });
@@ -66,12 +66,10 @@ app.post("/admin/login", (req, res) => {
   const db = readDB();
 
   const admin = db.admin.find(
-    (a) => a.email === email && a.password === password,
+    (a) => a.email === email && a.password === password
   );
 
-  admin
-    ? res.json(admin)
-    : res.status(401).json({ msg: "Invalid credentials" });
+  admin ? res.json(admin) : res.status(401).json({ msg: "Invalid credentials" });
 });
 
 /* ------------------ REGISTER USER ------------------ */
@@ -151,3 +149,4 @@ app.delete("/:collection/:id", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running`);
 });
+

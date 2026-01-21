@@ -1,15 +1,17 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const dbPath = path.join(__dirname, "..", "api.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-function readDB() {
-  const data = fs.readFileSync(dbPath, "utf-8");
+const DB_PATH = path.join(__dirname, "../api.json");
+
+export const readDB = () => {
+  const data = fs.readFileSync(DB_PATH, "utf-8");
   return JSON.parse(data);
-}
+};
 
-function writeDB(data) {
-  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
-}
-
-module.exports = { readDB, writeDB };
+export const writeDB = (data) => {
+  fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+};
