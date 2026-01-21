@@ -3,10 +3,18 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { v4 as uuid } from "uuid";
 import { readDB, writeDB } from "./utils/fileDb.js";
+// import redoc from "redoc-express";
+// import path from "path";
+// import YAML from "yamljs";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
 
+
+// const swaggerPath = path.join(process.cwd(), "openapi.yaml");
 dotenv.config();
 
 const app = express();
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
@@ -46,8 +54,20 @@ collections.forEach((col) => {
   });
 });
 
-/* ------------------ AUTH ------------------ */
 
+/* ------------------ DOCS ------------------ */
+// app.get(
+//   "/docs",
+//   redoc({
+//     title: "Stay Booking API Docs",
+//     specUrl: "/openapi.yaml",
+//   })
+// );
+// // serve yaml file
+// app.get("/openapi.yaml", (req, res) => {
+//   res.sendFile(swaggerPath);
+// });
+/* ------------------ AUTH ------------------ */
 // User login
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
